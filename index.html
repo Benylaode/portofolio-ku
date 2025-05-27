@@ -6,7 +6,6 @@
     <title>CV Laode Fahmi Hidayat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
@@ -18,22 +17,12 @@
             margin: 0; /* Remove default body margin */
             padding: 0; /* Remove default body padding */
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative; /* Ensure content is above the 3D background */
-            z-index: 1; /* Higher z-index than the 3D canvas */
-        }
         .header {
             text-align: center;
-            padding: 4rem 0;
+            padding: 4rem 0 2rem; /* Sesuaikan padding atas/bawah */
             position: relative;
-            overflow: hidden;
-            width: 100%;
+            z-index: 2; /* Pastikan teks header di atas canvas */
+            background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%); /* Gradasi untuk header */
         }
         .header h1 {
             font-size: 3.5rem;
@@ -48,15 +37,61 @@
             animation-delay: 0.5s;
             opacity: 0;
         }
+        .header h2 { /* Gaya untuk tema portofolio */
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            color: #a0aec0; /* Warna abu-abu terang */
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 1s;
+            opacity: 0;
+        }
+
+        /* Container untuk Three.js Canvas */
+        #solar-system-display {
+            position: relative; /* Penting untuk posisi absolut canvas di dalamnya */
+            width: 100%;
+            height: 450px; /* Tinggi yang cukup untuk tampilan tata surya */
+            overflow: hidden;
+            background-color: #000; /* Pastikan latar belakang hitam untuk ruang angkasa */
+            z-index: 1; /* Di bawah header, di atas konten utama */
+        }
+        #threejs-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block; /* Menghilangkan margin bawaan canvas */
+        }
+
+        .container {
+            width: 100%; /* Menggunakan lebar penuh */
+            padding: 2rem;
+            margin: 0 auto; /* Tengah secara horizontal */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2; /* Pastikan konten di atas canvas */
+            background-color: #000; /* Latar belakang hitam untuk bagian konten */
+        }
         .main-content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            width: 100%;
+            width: 100%; /* Menggunakan lebar penuh */
             padding-top: 2rem;
         }
+        /* Perubahan untuk layout 2 kolom pada layar besar */
+        @media (min-width: 1024px) { /* Untuk layar desktop dan yang lebih besar */
+            .main-content-grid {
+                grid-template-columns: 1fr 1fr; /* Dua kolom dengan lebar yang sama */
+            }
+        }
+
         .section {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: #1a1a1a; /* Warna solid, tidak transparan */
             border-radius: 1rem;
             padding: 2.5rem;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -110,7 +145,7 @@
         }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: #2a2a2a; /* Warna solid, sedikit lebih terang dari section */
             border-radius: 0.75rem;
             padding: 1.5rem;
             margin-bottom: 1rem;
@@ -188,17 +223,6 @@
             margin-top: 1rem;
         }
 
-        /* Three.js Canvas */
-        #threejs-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2; /* Behind all content */
-            background-color: #000; /* Ensure black background for space */
-        }
-
         /* Animasi */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -228,6 +252,9 @@
             .header p {
                 font-size: 1rem;
             }
+            .header h2 {
+                font-size: 1.4rem;
+            }
             .section-title {
                 font-size: 2rem;
             }
@@ -243,25 +270,33 @@
             .section {
                 padding: 2rem;
             }
+            #solar-system-display {
+                height: 300px; /* Tinggi lebih kecil di mobile */
+            }
         }
     </style>
 </head>
 <body>
-    <div id="threejs-container"></div> <!-- Container for Three.js canvas -->
     <div class="header">
         <h1>Laode Fahmi Hidayat</h1>
         <p>Business Intelligence | Artificial Intelligence | Software Testing</p>
+        <h2>Jelajahi Tata Surya dengan AI dan Teknologi</h2>
+    </div>
+
+    <div id="solar-system-display">
+        <canvas id="threejs-canvas"></canvas>
     </div>
 
     <div class="container">
         <div class="main-content-grid">
             <section id="summary" class="section">
                 <h2 class="section-title">Ringkasan</h2>
-                <p>Sebagai mahasiswa Sistem Informasi di Universitas Hasanuddin, saya berfokus pada Business Intelligence, Artificial Intelligence, dan Software Testing. Berpengalaman sebagai Project Manager dan Quality Assurance Engineer, saya ahli dalam pemrograman web, AI, dan analisis data, serta memiliki keahlian dalam strategi pemasaran digital. Saya berkomitmen untuk mengembangkan solusi inovatif yang menjembatani teknologi dan kebutuhan bisnis.</p>
+                <p>Sebagai profesional di bidang pemrograman dan teknologi, saya ahli dalam pengembangan web dan kecerdasan buatan (AI), dengan fokus pada analisis data dan transformasi digital. Pengalaman saya dalam OOP dan Algoritma serta Pemrograman memperkuat kemampuan analitis saya, memungkinkan saya menyusun solusi berbasis data yang efisien. Saya terampil membangun aplikasi web responsif menggunakan JavaScript, Python, dan Bootstrap, serta mengembangkan model machine learning, termasuk NLP dengan Word2Vec untuk analisis sentimen. Minat saya pada analisis data dan AI mendorong saya untuk mendukung keputusan strategis melalui visualisasi informasi. Dengan latar belakang pemasaran digital, saya memahami pentingnya data dalam strategi kampanye dan manajemen media sosial. Kombinasi keahlian ini memungkinkan saya menciptakan solusi inovatif dan berkontribusi sebagai Web Developer, AI Specialist, atau Data Analyst.</p>
             </section>
 
             <section id="education" class="section">
                 <h2 class="section-title">Pendidikan</h2>
+                <h3 class="card-title mt-8">Formal</h3>
                 <div class="card">
                     <h3 class="card-title">Universitas Hasanuddin</h3>
                     <p class="card-subtitle">Jurusan Sistem Informasi, IPK 3.85/4.00</p>
@@ -274,112 +309,57 @@
                     <p class="card-date">Juli 2019 - Maret 2022</p>
                     <p>Kendari, Indonesia</p>
                 </div>
-                <h3 class="card-title mt-8">Pendidikan Informal</h3>
+                <h3 class="card-title mt-8">Informal</h3>
                 <div class="card">
                     <h3 class="card-title">Codepolitan</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Bootstrap CSS Framework</li>
-                        <li>Belajar JavaScript</li>
+                        <li>Bootstrap CSS Framework <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Mempelajari cara menggunakan framework Bootstrap untuk membuat desain web yang responsif dan menarik. Bootstrap mempermudah pengembangan antarmuka pengguna (UI) dengan komponen yang telah disediakan seperti tombol, form, grid, dan lainnya.</li>
+                        <li>Belajar JavaScript <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Kursus ini mengajarkan dasar-dasar bahasa pemrograman JavaScript, yang digunakan untuk membuat halaman web lebih interaktif. Anda belajar mengenai variabel, fungsi, objek, event handling, dan lainnya yang penting untuk pengembangan aplikasi web modern.</li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Cucumber School</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>BDD with Cucumber (JavaScript)</li>
+                        <li>BDD with Cucumber (JavaScript) <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari konsep Behavior-Driven Development (BDD) dengan menggunakan Cucumber dalam bahasa JavaScript. BDD membantu dalam pengembangan perangkat lunak dengan menulis spesifikasi dalam bahasa yang mudah dimengerti oleh pengembang, penguji, dan pemangku kepentingan lainnya. Cucumber memungkinkan pengujian berbasis pada perilaku yang diharapkan dari aplikasi.</li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Dicoding</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Belajar Visualisasi Data</li>
-                        <li>Belajar Analisis Data dengan Python</li>
+                        <li>Belajar Visualisasi Data <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Fundamental Deep Learning <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Machine Learning untuk Pemula <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Dasar AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Dasar Git dengan GitHub <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Analisis Data dengan Python <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Belajar Dasar Visualisasi Data <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Pengenalan ke Logika Pemrograman (Programming Logic 101) <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                    </ul>
+                    <p class="card-date">2024</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">IBM</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-300">
+                        <li>Introduction to Software Engineering <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Generative AI: Introduction and Applications <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Generative AI: Prompt Engineering Basics <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>Generative AI Engineering and Fine-Tuning Transformers <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Alibaba Cloud Akademi</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Alibaba Cloud Certified Developers</li>
-                        <li>Public Class - The Large World of Language Models</li>
-                        <li>Dive into Generative AI</li>
-                        <li>Introduction to Application Real-time Monitoring Service</li>
-                        <li>Public Class - Using Generative AI Ethically & Responsibly</li>
-                        <li>Apsara Clouder: Getting Started with Machine Learning & AI</li>
-                        <li>Pengenalan ke Logika Pemrograman (Programming Logic 101)</li>
-                        <li>Introduction to Software Engineering</li>
+                        <li>Alibaba Cloud Certified Developers <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mendapatkan sertifikasi sebagai developer yang terlatih di Alibaba Cloud, yang menunjukkan keahlian dalam mengelola dan mengembangkan aplikasi di platform cloud Alibaba.</li>
+                        <li>Public Class - The Large World of Language Models <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari tentang model bahasa besar (seperti GPT) dan penerapannya dalam berbagai bidang, serta bagaimana model ini digunakan dalam pemrosesan bahasa alami (NLP)</li>
+                        <li>Dive into Generative AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mendalami topik AI Generatif, yang mencakup pembuatan konten baru, seperti teks, gambar, atau musik, dengan menggunakan teknologi kecerdasan buatan.</li>
+                        <li>Introduction to Application Real-time Monitoring Service <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Kursus ini memperkenalkan Anda pada konsep pemantauan aplikasi secara real-time menggunakan layanan yang disediakan oleh Alibaba Cloud untuk memantau kinerja aplikasi secara langsung</li>
+                        <li>Public Class - Using Generative AI Ethically & Responsibly <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari etika dan tanggung jawab dalam menggunakan AI generatif, termasuk bagaimana menghindari penyalahgunaan dan dampak negatif dari teknologi ini.</li>
+                        <li>Apsara Clouder: Getting Started with Machine Learning & AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>belajar dasar-dasar Machine Learning dan AI menggunakan platform Apsara dari Alibaba Cloud, termasuk teknik dasar dalam membangun dan melatih model AI.</li>
                     </ul>
                     <p class="card-date">2024</p>
-                </div>
-            </section>
-
-            <section id="licenses-certifications" class="section">
-                <h2 class="section-title">Lisensi dan Sertifikasi</h2>
-                <div class="card">
-                    <h3 class="card-title">Belajar Fundamental Deep Learning</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Fundamental Pemrosesan Data</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Machine Learning untuk Pemula</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Financial Literacy 101</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Generative AI Engineering and Fine-Tuning Transformers</h3>
-                    <p class="card-subtitle">IBM</p>
-                    <p class="card-date">Diterbitkan Apr 2025</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Generative AI: Prompt Engineering Basics</h3>
-                    <p class="card-subtitle">IBM</p>
-                    <p class="card-date">Diterbitkan Apr 2025</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Analisis Data dengan Python</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Mar 2025 • Kedaluwarsa Mar 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Generative AI: Introduction and Applications</h3>
-                    <p class="card-subtitle">IBM</p>
-                    <p class="card-date">Diterbitkan Mar 2025</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Dasar AI</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Dasar Git dengan GitHub</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Belajar Dasar Visualisasi Data</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Introduction to Software Engineering</h3>
-                    <p class="card-subtitle">IBM</p>
-                    <p class="card-date">Diterbitkan Feb 2025</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Pengenalan ke Logika Pemrograman (Programming Logic 101)</h3>
-                    <p class="card-subtitle">Dicoding Indonesia</p>
-                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
                 </div>
             </section>
 
@@ -388,24 +368,28 @@
                 <div class="card">
                     <h3 class="card-title">Staff TI BPK perwakilan Sulawesi Selatan</h3>
                     <p class="card-subtitle">Badan Pemeriksa Keuangan Republik Indonesia</p>
-                    <p class="card-date">Maret 2025 - Sekarang (3 bulan)</p>
-                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                    <p class="card-date">Maret 2025 - Present</p>
+                    <p>Makassar, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                        <li>Membantu membuat beberapa jenis aplikasi internal.</li>
-                        <li>Menyesuaikan beberapa perangkat elektronik.</li>
+                        <li>Mendukung pembuatan dan pengembangan beberapa aplikasi internal untuk kebutuhan operasional kantor.</li>
+                        <li>Membantu proses administrasi kantor yang berkaitan dengan teknologi informasi.</li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Fasilitator Pendamping</h3>
                     <p class="card-subtitle">BTPN Syariah</p>
-                    <p class="card-date">Februari 2025 - Sekarang (4 bulan)</p>
-                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                    <p class="card-date">Februari 2025 - Present</p>
+                    <p>Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Membantu manajemen usaha nasabah.</li>
+                        <li>Mendampingi nasabah dalam usahanya.</li>
+                    </ul>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Intern Digital Marketer</h3>
                     <p class="card-subtitle">Virtual Education Academy</p>
-                    <p class="card-date">September 2024 - Mei 2025 (9 bulan)</p>
-                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                    <p class="card-date">Aug - Nov 2024</p>
+                    <p>Daring, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
                         <li>Merancang dan mengimplementasikan strategi pemasaran digital yang sesuai dengan target pasar dan tujuan institusi.</li>
                         <li>Berpartisipasi dalam pengembangan kampanye promosi untuk meningkatkan kesadaran merek dan akuisisi pengguna.</li>
@@ -417,7 +401,7 @@
                 </div>
                 <div class="card">
                     <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
-                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p class="card-date">Juni 2023 - Desember 2025</p>
                     <p>Makassar, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
                         <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
@@ -429,10 +413,10 @@
                 </div>
                 <div class="card">
                     <h3 class="card-title">Freelance AI and Website developer</h3>
-                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p class="card-date">Juni 2023 - Present</p>
                     <p>Makassar, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                        <li>Bernegosiasi dan menjalin hubungan untuk mencapai kesepakatan bisnis yang saling menguntungkan dalam proyek pengembangan AI dan website.</li>
+                        <li>Memiliki keterampilan dalam negosiasi, mampu menjalin hubungan dan mencapai kesepakatan yang saling menguntungkan dalam berbagai situasi bisnis dan proyek.</li>
                         <li>Merancang dan mengelola platform yang menghubungkan pengguna dengan informasi terbaru mengenai eksplorasi luar angkasa.</li>
                         <li>Menerapkan model analisis sentimen dengan menggunakan Word2Vec untuk mengekstrak wawasan dari data teks.</li>
                         <li>Membangun dan mengelola website untuk berbagai tujuan, termasuk platform properti, situs web desa lokal, dan sistem otomatisasi absensi.</li>
@@ -446,13 +430,13 @@
                 </div>
                 <div class="card">
                     <h3 class="card-title">Kompas Siroh</h3>
-                    <p class="card-date">Mei 2023 - Sekarang</p>
+                    <p class="card-date">Mei 2023 - Present</p>
                     <p>Makassar, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
                         <li>Bertanggung jawab atas manajemen dan pengelolaan berbagai platform media sosial untuk meningkatkan keterlibatan dan pengikut audiens.</li>
                         <li>Mengembangkan kalender konten strategis dengan tujuan untuk memaksimalkan efektivitas kampanye digital.</li>
                         <li>Mendesain dan membuat konten visual kreatif untuk postingan media sosial, termasuk gambar, video pendek, dan infografis menggunakan perangkat lunak desain.</li>
-                        <li>Melakukan analisis performa konten melalui data engagement untuk mengidentifikasi trend dan meningkatkan strategi pemasaran digital.</li>
+                        <li>Melakukan analisis performa konten melalui data engagement untuk mengidentifikasi tren dan meningkatkan strategi pemasaran digital.</li>
                         <li>Berkomunikasi secara efektif dengan tim untuk memastikan keselarasan antara strategi sosial media dan visi organisasi.</li>
                     </ul>
                     <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
@@ -467,7 +451,7 @@
                 <h2 class="section-title">Pengalaman Organisasi</h2>
                 <div class="card">
                     <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
-                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p class="card-date">Juni 2023 - Present</p>
                     <p>Makassar, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
                         <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
@@ -482,8 +466,8 @@
                     <p class="card-date">4 tahun berturut-turut</p>
                     <p>Muna, Indonesia</p>
                     <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                        <li>Menjadi Juri dan Panitia Untuk kegiatan Lomba anak-anak Masjid Al-Ikhlas Desa Banggai.</li>
-                        <li>Menjadi Pembicara Untuk Kegiatan Ramadhan Masjid Al-Ikhlas Desa Banggai.</li>
+                        <li>Menjadi Juri dan Panitia Untuk kegiatan Lomba anak-anak Masjid Al-IKhlas Desa Banggai.</li>
+                        <li>Menjadi Pembicara Untuk Kegiatan Ramadhan Masjid Al-IKhlas Desa Banggai Selama 4 tahun berturut-turut.</li>
                     </ul>
                 </div>
                 <div class="card">
@@ -596,7 +580,7 @@
     <script>
         // Three.js global variables
         let scene, camera, renderer;
-        let sun, planets = [];
+        let sun, earthOrbitGroup, earthMesh, moonOrbitGroup, moonMesh;
         let stars = [];
 
         // Inisialisasi scene 3D
@@ -611,11 +595,8 @@
             // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.domElement.style.position = 'fixed';
-            renderer.domElement.style.top = '0';
-            renderer.domElement.style.left = '0';
-            renderer.domElement.style.zIndex = '-2'; // Pastikan di belakang konten HTML
-            document.getElementById('threejs-container').appendChild(renderer.domElement);
+            // Append the canvas to the specific container
+            document.getElementById('solar-system-display').appendChild(renderer.domElement);
 
             // Cahaya
             const ambientLight = new THREE.AmbientLight(0x404040); // Cahaya ambient
@@ -644,26 +625,25 @@
             scene.add(starField);
             stars.push(starField); // Simpan referensi untuk animasi
 
-            // Planet-planet
-            const planetData = [
-                { name: 'Merkurius', radius: 1, distance: 15, color: 0x888888, orbitalSpeed: 0.02 },
-                { name: 'Venus', radius: 1.5, distance: 25, color: 0xFFA500, orbitalSpeed: 0.015 },
-                { name: 'Bumi', radius: 1.8, distance: 35, color: 0x0000FF, orbitalSpeed: 0.01 },
-                { name: 'Mars', radius: 1.3, distance: 45, color: 0xFF0000, orbitalSpeed: 0.008 }
-            ];
+            // Bumi
+            earthOrbitGroup = new THREE.Object3D(); // Group untuk orbit Bumi mengelilingi Matahari
+            scene.add(earthOrbitGroup);
 
-            planetData.forEach(data => {
-                const planetGroup = new THREE.Object3D(); // Group untuk orbit
-                scene.add(planetGroup); // Tambahkan group ke scene
+            const earthGeometry = new THREE.SphereGeometry(2.5, 32, 32);
+            const earthMaterial = new THREE.MeshLambertMaterial({ color: 0x0000FF }); // Warna biru
+            earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+            earthMesh.position.x = 30; // Jarak Bumi dari Matahari
+            earthOrbitGroup.add(earthMesh); // Tambahkan Bumi ke group orbitnya
 
-                const planetGeometry = new THREE.SphereGeometry(data.radius, 32, 32);
-                const planetMaterial = new THREE.MeshLambertMaterial({ color: data.color });
-                const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
-                planetMesh.position.x = data.distance; // Posisikan planet dari pusat group
+            // Bulan
+            moonOrbitGroup = new THREE.Object3D(); // Group untuk orbit Bulan mengelilingi Bumi
+            earthMesh.add(moonOrbitGroup); // Tambahkan group orbit Bulan ke Bumi
 
-                planetGroup.add(planetMesh); // Tambahkan planet ke group orbit
-                planets.push({ group: planetGroup, mesh: planetMesh, orbitalSpeed: data.orbitalSpeed });
-            });
+            const moonGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+            const moonMaterial = new THREE.MeshLambertMaterial({ color: 0xAAAAAA }); // Warna abu-abu
+            moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
+            moonMesh.position.x = 5; // Jarak Bulan dari Bumi
+            moonOrbitGroup.add(moonMesh); // Tambahkan Bulan ke group orbitnya
         }
 
         // Loop animasi 3D
@@ -673,14 +653,15 @@
             // Rotasi matahari
             sun.rotation.y += 0.001;
 
-            // Animasi planet
-            planets.forEach(planet => {
-                planet.group.rotation.y += planet.orbitalSpeed; // Rotasi orbit
-                planet.mesh.rotation.y += 0.01; // Rotasi diri
-            });
+            // Rotasi orbit Bumi mengelilingi Matahari
+            earthOrbitGroup.rotation.y += 0.005; // Kecepatan orbit Bumi
+            earthMesh.rotation.y += 0.01; // Rotasi diri Bumi
+
+            // Rotasi orbit Bulan mengelilingi Bumi
+            moonOrbitGroup.rotation.y += 0.03; // Kecepatan orbit Bulan
+            moonMesh.rotation.y += 0.02; // Rotasi diri Bulan
 
             // Animasi bintang (jika ingin bergerak)
-            // Misalnya, membuat bintang berputar perlahan
             stars.forEach(starField => {
                 starField.rotation.y += 0.0001;
             });
