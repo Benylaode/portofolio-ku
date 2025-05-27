@@ -46,6 +46,22 @@
             animation-delay: 1s;
             opacity: 0;
         }
+        .header .social-links { /* Gaya untuk link sosial */
+            margin-top: 1rem;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 1.5s;
+            opacity: 0;
+        }
+        .header .social-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 0.8rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        .header .social-links a:hover {
+            color: #a0aec0;
+        }
 
         /* Container untuk Three.js Canvas */
         #solar-system-display {
@@ -228,6 +244,37 @@
             margin-top: 1rem;
         }
 
+        /* Styling untuk tombol kredensial */
+        .credential-button {
+            display: inline-block;
+            background-color: #4a5568; /* Warna abu-abu gelap */
+            color: #fff;
+            font-size: 0.75rem; /* Ukuran teks lebih kecil */
+            padding: 0.3rem 0.8rem; /* Padding lebih kecil */
+            border-radius: 9999px; /* Sangat bulat */
+            margin-top: 0.5rem; /* Jarak dari teks */
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .credential-button:hover {
+            background-color: #2d3748; /* Warna abu-abu lebih gelap saat hover */
+            transform: translateY(-1px);
+        }
+        /* Mengatur tata letak item list dengan tombol */
+        .card ul li {
+            margin-bottom: 1rem; /* Jarak antar item list */
+        }
+        .card ul li div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Rata kiri */
+        }
+        .card ul li p:first-child {
+            font-weight: 600; /* Judul kursus lebih tebal */
+            margin-bottom: 0.2rem;
+        }
+
+
         /* Animasi */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -285,6 +332,10 @@
     <div class="header">
         <h1>Laode Fahmi Hidayat</h1>
         <p>Business Intelligence | Artificial Intelligence | Software Testing</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/laode-hidayat-a36833351/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/Benylaode" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
         <h2>Jelajahi Tata Surya dengan AI dan Teknologi</h2>
     </div>
 
@@ -318,51 +369,177 @@
                 <div class="card">
                     <h3 class="card-title">Codepolitan</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Bootstrap CSS Framework <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Mempelajari cara menggunakan framework Bootstrap untuk membuat desain web yang responsif dan menarik. Bootstrap mempermudah pengembangan antarmuka pengguna (UI) dengan komponen yang telah disediakan seperti tombol, form, grid, dan lainnya.</li>
-                        <li>Belajar JavaScript <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Kursus ini mengajarkan dasar-dasar bahasa pemrograman JavaScript, yang digunakan untuk membuat halaman web lebih interaktif. Anda belajar mengenai variabel, fungsi, objek, event handling, dan lainnya yang penting untuk pengembangan aplikasi web modern.</li>
+                        <li>
+                            <div>
+                                <p>Bootstrap CSS Framework</p>
+                                <p class="text-sm text-gray-300">Mempelajari cara menggunakan framework Bootstrap untuk membuat desain web yang responsif dan menarik. Bootstrap mempermudah pengembangan antarmuka pengguna (UI) dengan komponen yang telah disediakan seperti tombol, form, grid, dan lainnya.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar JavaScript</p>
+                                <p class="text-sm text-gray-300">Kursus ini mengajarkan dasar-dasar bahasa pemrograman JavaScript, yang digunakan untuk membuat halaman web lebih interaktif. Anda belajar mengenai variabel, fungsi, objek, event handling, dan lainnya yang penting untuk pengembangan aplikasi web modern.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Cucumber School</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>BDD with Cucumber (JavaScript) <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari konsep Behavior-Driven Development (BDD) dengan menggunakan Cucumber dalam bahasa JavaScript. BDD membantu dalam pengembangan perangkat lunak dengan menulis spesifikasi dalam bahasa yang mudah dimengerti oleh pengembang, penguji, dan pemangku kepentingan lainnya. Cucumber memungkinkan pengujian berbasis pada perilaku yang diharapkan dari aplikasi.</li>
+                        <li>
+                            <div>
+                                <p>BDD with Cucumber (JavaScript)</p>
+                                <p class="text-sm text-gray-300">mempelajari konsep Behavior-Driven Development (BDD) dengan menggunakan Cucumber dalam bahasa JavaScript. BDD membantu dalam pengembangan perangkat lunak dengan menulis spesifikasi dalam bahasa yang mudah dimengerti oleh pengembang, penguji, dan pemangku kepentingan lainnya. Cucumber memungkinkan pengujian berbasis pada perilaku yang diharapkan dari aplikasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Dicoding</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Belajar Visualisasi Data <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Fundamental Deep Learning <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Machine Learning untuk Pemula <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Dasar AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Dasar Git dengan GitHub <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Analisis Data dengan Python <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Belajar Dasar Visualisasi Data <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Pengenalan ke Logika Pemrograman (Programming Logic 101) <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>
+                            <div>
+                                <p>Belajar Visualisasi Data</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Fundamental Deep Learning</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Machine Learning untuk Pemula</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Dasar AI</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Dasar Git dengan GitHub</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Analisis Data dengan Python</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Belajar Dasar Visualisasi Data</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Pengenalan ke Logika Pemrograman (Programming Logic 101)</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">IBM</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Introduction to Software Engineering <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Generative AI: Introduction and Applications <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Generative AI: Prompt Engineering Basics <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
-                        <li>Generative AI Engineering and Fine-Tuning Transformers <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</li>
+                        <li>
+                            <div>
+                                <p>Introduction to Software Engineering</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Generative AI: Introduction and Applications</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Generative AI: Prompt Engineering Basics</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Generative AI Engineering and Fine-Tuning Transformers</p>
+                                <p class="text-sm text-gray-300">mempelajari teknik untuk menyajikan data dalam bentuk visual, seperti grafik atau diagram, agar informasi dapat lebih mudah dipahami. Kursus ini membantu Anda mengembangkan kemampuan dalam menganalisis dan menyajikan data secara efektif menggunakan berbagai alat dan teknik visualisasi.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title">Alibaba Cloud Akademi</h3>
                     <ul class="list-disc list-inside text-sm text-gray-300">
-                        <li>Alibaba Cloud Certified Developers <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mendapatkan sertifikasi sebagai developer yang terlatih di Alibaba Cloud, yang menunjukkan keahlian dalam mengelola dan mengembangkan aplikasi di platform cloud Alibaba.</li>
-                        <li>Public Class - The Large World of Language Models <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari tentang model bahasa besar (seperti GPT) dan penerapannya dalam berbagai bidang, serta bagaimana model ini digunakan dalam pemrosesan bahasa alami (NLP)</li>
-                        <li>Dive into Generative AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mendalami topik AI Generatif, yang mencakup pembuatan konten baru, seperti teks, gambar, atau musik, dengan menggunakan teknologi kecerdasan buatan.</li>
-                        <li>Introduction to Application Real-time Monitoring Service <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>Kursus ini memperkenalkan Anda pada konsep pemantauan aplikasi secara real-time menggunakan layanan yang disediakan oleh Alibaba Cloud untuk memantau kinerja aplikasi secara langsung</li>
-                        <li>Public Class - Using Generative AI Ethically & Responsibly <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>mempelajari etika dan tanggung jawab dalam menggunakan AI generatif, termasuk bagaimana menghindari penyalahgunaan dan dampak negatif dari teknologi ini.</li>
-                        <li>Apsara Clouder: Getting Started with Machine Learning & AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>belajar dasar-dasar Machine Learning dan AI menggunakan platform Apsara dari Alibaba Cloud, termasuk teknik dasar dalam membangun dan melatih model AI.</li>
+                        <li>
+                            <div>
+                                <p>Alibaba Cloud Certified Developers</p>
+                                <p class="text-sm text-gray-300">mendapatkan sertifikasi sebagai developer yang terlatih di Alibaba Cloud, yang menunjukkan keahlian dalam mengelola dan mengembangkan aplikasi di platform cloud Alibaba.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Public Class - The Large World of Language Models</p>
+                                <p class="text-sm text-gray-300">mempelajari tentang model bahasa besar (seperti GPT) dan penerapannya dalam berbagai bidang, serta bagaimana model ini digunakan dalam pemrosesan bahasa alami (NLP)</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Dive into Generative AI</p>
+                                <p class="text-sm text-gray-300">mendalami topik AI Generatif, yang mencakup pembuatan konten baru, seperti teks, gambar, atau musik, dengan menggunakan teknologi kecerdasan buatan.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Introduction to Application Real-time Monitoring Service</p>
+                                <p class="text-sm text-gray-300">Kursus ini memperkenalkan Anda pada konsep pemantauan aplikasi secara real-time menggunakan layanan yang disediakan oleh Alibaba Cloud untuk memantau kinerja aplikasi secara langsung</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Public Class - Using Generative AI Ethically & Responsibly</p>
+                                <p class="text-sm text-gray-300">mempelajari etika dan tanggung jawab dalam menggunakan AI generatif, termasuk bagaimana menghindari penyalahgunaan dan dampak negatif dari teknologi ini.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Apsara Clouder: Getting Started with Machine Learning & AI</p>
+                                <p class="text-sm text-gray-300">belajar dasar-dasar Machine Learning dan AI menggunakan platform Apsara dari Alibaba Cloud, termasuk teknik dasar dalam membangun dan melatih model AI.</p>
+                                <a href="https://example.com/certificate" target="_blank" rel="noopener noreferrer" class="credential-button">Lihat Kredensial</a>
+                            </div>
+                        </li>
                     </ul>
                     <p class="card-date">2024</p>
                 </div>
