@@ -6,6 +6,8 @@
     <title>CV Laode Fahmi Hidayat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -13,17 +15,25 @@
             color: #fff; /* Teks putih */
             line-height: 1.6;
             overflow-x: hidden; /* Mencegah scroll horizontal */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* Ensure content is above the 3D background */
+            z-index: 1; /* Higher z-index than the 3D canvas */
         }
         .header {
             text-align: center;
             padding: 4rem 0;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
         .header h1 {
             font-size: 3.5rem;
@@ -38,31 +48,47 @@
             animation-delay: 0.5s;
             opacity: 0;
         }
+        .main-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            padding-top: 2rem;
+        }
         .section {
-            padding: 3rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .section:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+            transform: translateY(-8px);
         }
         .section.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .section:last-child {
-            border-bottom: none;
-        }
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 600;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             position: relative;
-            display: inline-block;
+            display: block;
             padding-bottom: 0.5rem;
+            opacity: 0;
             animation: slideInLeft 1s ease-out forwards;
             animation-delay: 0.2s;
-            opacity: 0;
+        }
+        .section.is-visible .section-title {
+            opacity: 1;
+            animation: none;
         }
         .section-title::after {
             content: '';
@@ -73,64 +99,60 @@
             width: 80px;
             height: 3px;
             background-color: #fff;
+            opacity: 0;
             animation: expandLine 1.5s ease-out forwards;
             animation-delay: 0.7s;
             transform-origin: center;
-            opacity: 0;
-        }
-        .section.is-visible .section-title {
-             opacity: 1;
-             animation: none; /* Reset animation for re-trigger on scroll */
         }
         .section.is-visible .section-title::after {
             opacity: 1;
-            animation: none; /* Reset animation for re-trigger on scroll */
+            animation: none;
         }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
         .card-title {
-            font-size: 1.75rem;
+            font-size: 1.6rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
         }
         .card-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 400;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
         .card-date {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
         .skill-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
         }
         .skill-item {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
+            background-color: rgba(255, 255, 255, 0.12);
+            border-radius: 0.4rem;
+            padding: 0.6rem 0.8rem;
             text-align: center;
             font-weight: 400;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .skill-item:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.03);
         }
         .contact-info a {
             color: #fff;
@@ -139,6 +161,42 @@
         }
         .contact-info a:hover {
             color: rgba(255, 255, 255, 0.7);
+        }
+        .generate-insight-btn {
+            background-color: #fff;
+            color: #000;
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+        }
+        .generate-insight-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+        }
+        .generate-insight-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .project-insight {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Three.js Canvas */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2; /* Behind all content */
+            background-color: #000; /* Ensure black background for space */
         }
 
         /* Animasi */
@@ -162,34 +220,6 @@
             to { width: 80px; opacity: 1; }
         }
 
-        /* Animasi latar belakang partikel */
-        .particle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            animation: floatAndFade 15s infinite ease-in-out;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes floatAndFade {
-            0% {
-                transform: translateY(0) translateX(0) scale(0.5);
-                opacity: 0;
-            }
-            25% {
-                opacity: 0.5;
-            }
-            50% {
-                transform: translateY(-100vh) translateX(50vw) scale(1);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) translateX(0) scale(0.5);
-                opacity: 0;
-            }
-        }
-
         /* Responsif */
         @media (max-width: 768px) {
             .header h1 {
@@ -207,374 +237,462 @@
             .card {
                 padding: 1.5rem;
             }
+            .main-content-grid {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="threejs-container"></div> <!-- Container for Three.js canvas -->
     <div class="header">
         <h1>Laode Fahmi Hidayat</h1>
         <p>Business Intelligence | Artificial Intelligence | Software Testing</p>
-        <div id="particles-container"></div>
     </div>
 
     <div class="container">
-        <section id="summary" class="section">
-            <h2 class="section-title">Ringkasan</h2>
-            <div class="card">
+        <div class="main-content-grid">
+            <section id="summary" class="section">
+                <h2 class="section-title">Ringkasan</h2>
                 <p>Sebagai mahasiswa Sistem Informasi di Universitas Hasanuddin, saya berfokus pada Business Intelligence, Artificial Intelligence, dan Software Testing. Berpengalaman sebagai Project Manager dan Quality Assurance Engineer, saya ahli dalam pemrograman web, AI, dan analisis data, serta memiliki keahlian dalam strategi pemasaran digital. Saya berkomitmen untuk mengembangkan solusi inovatif yang menjembatani teknologi dan kebutuhan bisnis.</p>
-            </div>
-        </section>
+            </section>
 
-        <section id="education" class="section">
-            <h2 class="section-title">Pendidikan</h2>
-            <div class="card">
-                <h3 class="card-title">Universitas Hasanuddin</h3>
-                <p class="card-subtitle">Jurusan Sistem Informasi, IPK 3.85/4.00</p>
-                <p class="card-date">Agustus 2022 - Desember 2025</p>
-                <p>Makassar, Indonesia</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">MAN Insan Cendekia Kota Kendari</h3>
-                <p class="card-subtitle">Ilmu Pengetahuan Alam (IPA)</p>
-                <p class="card-date">Juli 2019 - Maret 2022</p>
-                <p>Kendari, Indonesia</p>
-            </div>
-            <h3 class="card-title mt-8">Pendidikan Informal</h3>
-            <div class="card">
-                <h3 class="card-title">Codepolitan</h3>
-                <ul class="list-disc list-inside text-sm text-gray-300">
-                    <li>Bootstrap CSS Framework</li>
-                    <li>Belajar JavaScript</li>
-                </ul>
-                <p class="card-date">2024</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Cucumber School</h3>
-                <ul class="list-disc list-inside text-sm text-gray-300">
-                    <li>BDD with Cucumber (JavaScript)</li>
-                </ul>
-                <p class="card-date">2024</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Dicoding</h3>
-                <ul class="list-disc list-inside text-sm text-gray-300">
-                    <li>Belajar Visualisasi Data</li>
-                    <li>Belajar Analisis Data dengan Python</li>
-                </ul>
-                <p class="card-date">2024</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Alibaba Cloud Akademi</h3>
-                <ul class="list-disc list-inside text-sm text-gray-300">
-                    <li>Alibaba Cloud Certified Developers</li>
-                    <li>Public Class - The Large World of Language Models</li>
-                    <li>Dive into Generative AI</li>
-                    <li>Introduction to Application Real-time Monitoring Service</li>
-                    <li>Public Class - Using Generative AI Ethically & Responsibly</li>
-                    <li>Apsara Clouder: Getting Started with Machine Learning & AI</li>
-                    <li>Pengenalan ke Logika Pemrograman (Programming Logic 101)</li>
-                    <li>Introduction to Software Engineering</li>
-                </ul>
-                <p class="card-date">2024</p>
-            </div>
-        </section>
+            <section id="education" class="section">
+                <h2 class="section-title">Pendidikan</h2>
+                <div class="card">
+                    <h3 class="card-title">Universitas Hasanuddin</h3>
+                    <p class="card-subtitle">Jurusan Sistem Informasi, IPK 3.85/4.00</p>
+                    <p class="card-date">Agustus 2022 - Desember 2025</p>
+                    <p>Makassar, Indonesia</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">MAN Insan Cendekia Kota Kendari</h3>
+                    <p class="card-subtitle">Ilmu Pengetahuan Alam (IPA)</p>
+                    <p class="card-date">Juli 2019 - Maret 2022</p>
+                    <p>Kendari, Indonesia</p>
+                </div>
+                <h3 class="card-title mt-8">Pendidikan Informal</h3>
+                <div class="card">
+                    <h3 class="card-title">Codepolitan</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-300">
+                        <li>Bootstrap CSS Framework</li>
+                        <li>Belajar JavaScript</li>
+                    </ul>
+                    <p class="card-date">2024</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Cucumber School</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-300">
+                        <li>BDD with Cucumber (JavaScript)</li>
+                    </ul>
+                    <p class="card-date">2024</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Dicoding</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-300">
+                        <li>Belajar Visualisasi Data</li>
+                        <li>Belajar Analisis Data dengan Python</li>
+                    </ul>
+                    <p class="card-date">2024</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Alibaba Cloud Akademi</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-300">
+                        <li>Alibaba Cloud Certified Developers</li>
+                        <li>Public Class - The Large World of Language Models</li>
+                        <li>Dive into Generative AI</li>
+                        <li>Introduction to Application Real-time Monitoring Service</li>
+                        <li>Public Class - Using Generative AI Ethically & Responsibly</li>
+                        <li>Apsara Clouder: Getting Started with Machine Learning & AI</li>
+                        <li>Pengenalan ke Logika Pemrograman (Programming Logic 101)</li>
+                        <li>Introduction to Software Engineering</li>
+                    </ul>
+                    <p class="card-date">2024</p>
+                </div>
+            </section>
 
-        <section id="licenses-certifications" class="section">
-            <h2 class="section-title">Lisensi dan Sertifikasi</h2>
-            <div class="card">
-                <h3 class="card-title">Belajar Fundamental Deep Learning</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Fundamental Pemrosesan Data</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Machine Learning untuk Pemula</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Financial Literacy 101</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Generative AI Engineering and Fine-Tuning Transformers</h3>
-                <p class="card-subtitle">IBM</p>
-                <p class="card-date">Diterbitkan Apr 2025</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Generative AI: Prompt Engineering Basics</h3>
-                <p class="card-subtitle">IBM</p>
-                <p class="card-date">Diterbitkan Apr 2025</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Analisis Data dengan Python</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Mar 2025 • Kedaluwarsa Mar 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Generative AI: Introduction and Applications</h3>
-                <p class="card-subtitle">IBM</p>
-                <p class="card-date">Diterbitkan Mar 2025</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Dasar AI</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Dasar Git dengan GitHub</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Belajar Dasar Visualisasi Data</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Introduction to Software Engineering</h3>
-                <p class="card-subtitle">IBM</p>
-                <p class="card-date">Diterbitkan Feb 2025</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Pengenalan ke Logika Pemrograman (Programming Logic 101)</h3>
-                <p class="card-subtitle">Dicoding Indonesia</p>
-                <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
-            </div>
-        </section>
+            <section id="licenses-certifications" class="section">
+                <h2 class="section-title">Lisensi dan Sertifikasi</h2>
+                <div class="card">
+                    <h3 class="card-title">Belajar Fundamental Deep Learning</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Fundamental Pemrosesan Data</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Machine Learning untuk Pemula</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Financial Literacy 101</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI Engineering and Fine-Tuning Transformers</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Apr 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI: Prompt Engineering Basics</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Apr 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Analisis Data dengan Python</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mar 2025 • Kedaluwarsa Mar 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI: Introduction and Applications</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Mar 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar AI</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar Git dengan GitHub</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar Visualisasi Data</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Introduction to Software Engineering</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Feb 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Pengenalan ke Logika Pemrograman (Programming Logic 101)</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+            </section>
 
-        <section id="experience" class="section">
-            <h2 class="section-title">Pengalaman Kerja</h2>
-            <div class="card">
-                <h3 class="card-title">Staff TI BPK perwakilan Sulawesi Selatan</h3>
-                <p class="card-subtitle">Badan Pemeriksa Keuangan Republik Indonesia</p>
-                <p class="card-date">Maret 2025 - Sekarang (3 bulan)</p>
-                <p>Makassar, Sulawesi Selatan, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Membantu membuat beberapa jenis aplikasi internal.</li>
-                    <li>Menyesuaikan beberapa perangkat elektronik.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Fasilitator Pendamping</h3>
-                <p class="card-subtitle">BTPN Syariah</p>
-                <p class="card-date">Februari 2025 - Sekarang (4 bulan)</p>
-                <p>Makassar, Sulawesi Selatan, Indonesia</p>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Intern Digital Marketer</h3>
-                <p class="card-subtitle">Virtual Education Academy</p>
-                <p class="card-date">September 2024 - Mei 2025 (9 bulan)</p>
-                <p>Makassar, Sulawesi Selatan, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Merancang dan mengimplementasikan strategi pemasaran digital yang sesuai dengan target pasar dan tujuan institusi.</li>
-                    <li>Berpartisipasi dalam pengembangan kampanye promosi untuk meningkatkan kesadaran merek dan akuisisi pengguna.</li>
-                    <li>Mengkoordinasikan tugas-tugas tim marketing secara efektif, termasuk delegasi tugas, penjadwalan, dan pelaporan hasil.</li>
-                    <li>Melakukan riset pasar dan analisis kompetitor untuk mengidentifikasi peluang pertumbuhan dan diferensiasi.</li>
-                    <li>Mengembangkan materi pemasaran seperti e-mail marketing, brosur digital, dan konten media sosial untuk mendukung promosi.</li>
-                    <li>Berkontribusi dalam evaluasi hasil kampanye dengan menggunakan metrik kinerja untuk memberikan rekomendasi peningkatan di masa depan.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
-                <p class="card-date">Juni 2023 - Sekarang</p>
-                <p>Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
-                    <li>Menjadi Pendamping Bagi Mahasiswa Baru dalam mempelajari mata kuliah tertentu.</li>
-                    <li>Menjadi Pembuat soal untuk mahasiswa baru pada matakuliah Algoritma dan Pemrograman.</li>
-                    <li>Menjadi Pengajar dan Pendamping pada bidang Algoritma dan Pemrograman.</li>
-                    <li>Menjadi Pengajar dan Pendamping pada bidang Pemrograman Berorientasi Objek.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Freelance AI and Website developer</h3>
-                <p class="card-date">Juni 2023 - Sekarang</p>
-                <p>Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Bernegosiasi dan menjalin hubungan untuk mencapai kesepakatan bisnis yang saling menguntungkan dalam proyek pengembangan AI dan website.</li>
-                    <li>Merancang dan mengelola platform yang menghubungkan pengguna dengan informasi terbaru mengenai eksplorasi luar angkasa.</li>
-                    <li>Menerapkan model analisis sentimen dengan menggunakan Word2Vec untuk mengekstrak wawasan dari data teks.</li>
-                    <li>Membangun dan mengelola website untuk berbagai tujuan, termasuk platform properti, situs web desa lokal, dan sistem otomatisasi absensi.</li>
-                    <li>Menggunakan teknologi untuk meningkatkan efisiensi, akurasi, dan pengalaman pengguna dalam berbagai aplikasi digital.</li>
-                </ul>
-                <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
-                    ✨ Dapatkan Wawasan Proyek
-                </button>
-                <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
-                <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Kompas Siroh</h3>
-                <p class="card-date">Mei 2023 - Sekarang</p>
-                <p>Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Bertanggung jawab atas manajemen dan pengelolaan berbagai platform media sosial untuk meningkatkan keterlibatan dan pengikut audiens.</li>
-                    <li>Mengembangkan kalender konten strategis dengan tujuan untuk memaksimalkan efektivitas kampanye digital.</li>
-                    <li>Mendesain dan membuat konten visual kreatif untuk postingan media sosial, termasuk gambar, video pendek, dan infografis menggunakan perangkat lunak desain.</li>
-                    <li>Melakukan analisis performa konten melalui data engagement untuk mengidentifikasi trend dan meningkatkan strategi pemasaran digital.</li>
-                    <li>Berkomunikasi secara efektif dengan tim untuk memastikan keselarasan antara strategi sosial media dan visi organisasi.</li>
-                </ul>
-                <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
-                    ✨ Dapatkan Wawasan Proyek
-                </button>
-                <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
-                <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
-            </div>
-        </section>
+            <section id="experience" class="section">
+                <h2 class="section-title">Pengalaman Kerja</h2>
+                <div class="card">
+                    <h3 class="card-title">Staff TI BPK perwakilan Sulawesi Selatan</h3>
+                    <p class="card-subtitle">Badan Pemeriksa Keuangan Republik Indonesia</p>
+                    <p class="card-date">Maret 2025 - Sekarang (3 bulan)</p>
+                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Membantu membuat beberapa jenis aplikasi internal.</li>
+                        <li>Menyesuaikan beberapa perangkat elektronik.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Fasilitator Pendamping</h3>
+                    <p class="card-subtitle">BTPN Syariah</p>
+                    <p class="card-date">Februari 2025 - Sekarang (4 bulan)</p>
+                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Intern Digital Marketer</h3>
+                    <p class="card-subtitle">Virtual Education Academy</p>
+                    <p class="card-date">September 2024 - Mei 2025 (9 bulan)</p>
+                    <p>Makassar, Sulawesi Selatan, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Merancang dan mengimplementasikan strategi pemasaran digital yang sesuai dengan target pasar dan tujuan institusi.</li>
+                        <li>Berpartisipasi dalam pengembangan kampanye promosi untuk meningkatkan kesadaran merek dan akuisisi pengguna.</li>
+                        <li>Mengkoordinasikan tugas-tugas tim marketing secara efektif, termasuk delegasi tugas, penjadwalan, dan pelaporan hasil.</li>
+                        <li>Melakukan riset pasar dan analisis kompetitor untuk mengidentifikasi peluang pertumbuhan dan diferensiasi.</li>
+                        <li>Mengembangkan materi pemasaran seperti e-mail marketing, brosur digital, dan konten media sosial untuk mendukung promosi.</li>
+                        <li>Berkontribusi dalam evaluasi hasil kampanye dengan menggunakan metrik kinerja untuk memberikan rekomendasi peningkatan di masa depan.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
+                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p>Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
+                        <li>Menjadi Pendamping Bagi Mahasiswa Baru dalam mempelajari mata kuliah tertentu.</li>
+                        <li>Menjadi Pembuat soal untuk mahasiswa baru pada matakuliah Algoritma dan Pemrograman.</li>
+                        <li>Menjadi Pengajar dan Pendamping pada bidang Algoritma dan Pemrograman.</li>
+                        <li>Menjadi Pengajar dan Pendamping pada bidang Pemrograman Berorientasi Objek.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Freelance AI and Website developer</h3>
+                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p>Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Bernegosiasi dan menjalin hubungan untuk mencapai kesepakatan bisnis yang saling menguntungkan dalam proyek pengembangan AI dan website.</li>
+                        <li>Merancang dan mengelola platform yang menghubungkan pengguna dengan informasi terbaru mengenai eksplorasi luar angkasa.</li>
+                        <li>Menerapkan model analisis sentimen dengan menggunakan Word2Vec untuk mengekstrak wawasan dari data teks.</li>
+                        <li>Membangun dan mengelola website untuk berbagai tujuan, termasuk platform properti, situs web desa lokal, dan sistem otomatisasi absensi.</li>
+                        <li>Menggunakan teknologi untuk meningkatkan efisiensi, akurasi, dan pengalaman pengguna dalam berbagai aplikasi digital.</li>
+                    </ul>
+                    <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                        ✨ Dapatkan Wawasan Proyek
+                    </button>
+                    <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
+                    <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Kompas Siroh</h3>
+                    <p class="card-date">Mei 2023 - Sekarang</p>
+                    <p>Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Bertanggung jawab atas manajemen dan pengelolaan berbagai platform media sosial untuk meningkatkan keterlibatan dan pengikut audiens.</li>
+                        <li>Mengembangkan kalender konten strategis dengan tujuan untuk memaksimalkan efektivitas kampanye digital.</li>
+                        <li>Mendesain dan membuat konten visual kreatif untuk postingan media sosial, termasuk gambar, video pendek, dan infografis menggunakan perangkat lunak desain.</li>
+                        <li>Melakukan analisis performa konten melalui data engagement untuk mengidentifikasi trend dan meningkatkan strategi pemasaran digital.</li>
+                        <li>Berkomunikasi secara efektif dengan tim untuk memastikan keselarasan antara strategi sosial media dan visi organisasi.</li>
+                    </ul>
+                    <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                        ✨ Dapatkan Wawasan Proyek
+                    </button>
+                    <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
+                    <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
+                </div>
+            </section>
 
-        <section id="organization" class="section">
-            <h2 class="section-title">Pengalaman Organisasi</h2>
-            <div class="card">
-                <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
-                <p class="card-date">Juni 2023 - Sekarang</p>
-                <p>Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
-                    <li>Menjadi Pendamping Bagi Mahasiswa Baru dalam mempelajari mata kuliah tertentu.</li>
-                    <li>Menjadi Pembuat soal untuk mahasiswa baru pada matakuliah Algoritma dan Pemrograman.</li>
-                    <li>Menjadi Pengajar dan Pendamping pada bidang Algoritma dan Pemrograman.</li>
-                    <li>Menjadi Pengajar dan Pendamping pada bidang Pemrograman Berorientasi Objek.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Humas Masjid Al-Ikhlas Desa Banggai</h3>
-                <p class="card-date">4 tahun berturut-turut</p>
-                <p>Muna, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Menjadi Juri dan Panitia Untuk kegiatan Lomba anak-anak Masjid Al-Ikhlas Desa Banggai.</li>
-                    <li>Menjadi Pembicara Untuk Kegiatan Ramadhan Masjid Al-Ikhlas Desa Banggai.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3 class="card-title">(MPK) Majelis Perwakilan Kelas</h3>
-                <p class="card-subtitle">Anggota</p>
-                <p>Kendari, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Menjadi Pimpinan Sidang Pelono Sebanyak dua kali.</li>
-                    <li>Menjadi ketua Panitia Pemilihan Ketua osis sebanyak dua kali.</li>
-                </ul>
-            </div>
-        </section>
+            <section id="organization" class="section">
+                <h2 class="section-title">Pengalaman Organisasi</h2>
+                <div class="card">
+                    <h3 class="card-title">Asisten Lab Sisfo Unhas</h3>
+                    <p class="card-date">Juni 2023 - Sekarang</p>
+                    <p>Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Menjadi Juri Seminar Presentasi Aplikasi Mahasiswa Baru.</li>
+                        <li>Menjadi Pendamping Bagi Mahasiswa Baru dalam mempelajari mata kuliah tertentu.</li>
+                        <li>Menjadi Pembuat soal untuk mahasiswa baru pada matakuliah Algoritma dan Pemrograman.</li>
+                        <li>Menjadi Pengajar dan Pendamping pada bidang Algoritma dan Pemrograman.</li>
+                        <li>Menjadi Pengajar dan Pendamping pada bidang Pemrograman Berorientasi Objek.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Humas Masjid Al-Ikhlas Desa Banggai</h3>
+                    <p class="card-date">4 tahun berturut-turut</p>
+                    <p>Muna, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Menjadi Juri dan Panitia Untuk kegiatan Lomba anak-anak Masjid Al-Ikhlas Desa Banggai.</li>
+                        <li>Menjadi Pembicara Untuk Kegiatan Ramadhan Masjid Al-Ikhlas Desa Banggai.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">(MPK) Majelis Perwakilan Kelas</h3>
+                    <p class="card-subtitle">Anggota</p>
+                    <p>Kendari, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Menjadi Pimpinan Sidang Pelono Sebanyak dua kali.</li>
+                        <li>Menjadi ketua Panitia Pemilihan Ketua osis sebanyak dua kali.</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section id="projects" class="section">
-            <h2 class="section-title">Pengalaman Proyek</h2>
-            <div class="card">
-                <h3 class="card-title">SafeSpeak.com</h3>
-                <p class="card-date">Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Menjadi pengembang dan penguji alat berbasis AI untuk mendeteksi ujaran kebencian di platform media sosial dan komunikasi.</li>
-                    <li>Membantu merancang dan mengimplementasikan model AI untuk mengidentifikasi konten negatif di ruang digital.</li>
-                    <li>Berperan dalam mengembangkan solusi berbasis teknologi untuk menciptakan lingkungan daring yang lebih aman.</li>
-                    <li>Menjadi mentor dalam pengembangan sistem deteksi ujaran kebencian untuk berbagai platform.</li>
-                    <li>Membantu tim dalam menguji dan memperbaiki kinerja alat deteksi untuk memastikan akurasi dan efektivitasnya.</li>
-                </ul>
-                <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
-                    ✨ Dapatkan Wawasan Proyek
-                </button>
-                <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
-                <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">I-Rocket</h3>
-                <p class="card-date">Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Mengembangkan platform yang menghubungkan pengguna dengan berita dan informasi terbaru tentang eksplorasi luar angkasa.</li>
-                    <li>Berperan dalam menyediakan informasi yang akurat dan relevan untuk membantu pengguna mengikuti perkembangan misi luar angkasa.</li>
-                </ul>
-                <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
-                    ✨ Dapatkan Wawasan Proyek
-                </button>
-                <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
-                <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Word2Vec Model</h3>
-                <p class="card-date">Makassar, Indonesia</p>
-                <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
-                    <li>Mengembangkan model analisis sentimen dengan menggunakan Word2Vec untuk mengekstrak makna dari data teks.</li>
-                    <li>Menggunakan Word2Vec untuk mengubah teks menjadi vektor yang memudahkan identifikasi sentimen, seperti positif, negatif, atau netral.</li>
-                    <li>Menerapkan teknik pemrosesan bahasa alami (NLP) untuk memahami hubungan semantik dalam teks dan menganalisis perasaan yang terkandung di dalamnya.</li>
-                    <li>Membangun model yang dapat mengidentifikasi tren sentimen dan memberikan wawasan yang berguna untuk pengambilan keputusan berbasis data.</li>
-                </ul>
-                <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
-                    ✨ Dapatkan Wawasan Proyek
-                </button>
-                <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
-                <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
-            </div>
-        </section>
+            <section id="projects" class="section">
+                <h2 class="section-title">Pengalaman Proyek</h2>
+                <div class="card">
+                    <h3 class="card-title">SafeSpeak.com</h3>
+                    <p class="card-date">Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Menjadi pengembang dan penguji alat berbasis AI untuk mendeteksi ujaran kebencian di platform media sosial dan komunikasi.</li>
+                        <li>Membantu merancang dan mengimplementasikan model AI untuk mengidentifikasi konten negatif di ruang digital.</li>
+                        <li>Berperan dalam mengembangkan solusi berbasis teknologi untuk menciptakan lingkungan daring yang lebih aman.</li>
+                        <li>Menjadi mentor dalam pengembangan sistem deteksi ujaran kebencian untuk berbagai platform.</li>
+                        <li>Membantu tim dalam menguji dan memperbaiki kinerja alat deteksi untuk memastikan akurasi dan efektivitasnya.</li>
+                    </ul>
+                    <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                        ✨ Dapatkan Wawasan Proyek
+                    </button>
+                    <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
+                    <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">I-Rocket</h3>
+                    <p class="card-date">Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Mengembangkan platform yang menghubungkan pengguna dengan berita dan informasi terbaru tentang eksplorasi luar angkasa.</li>
+                        <li>Berperan dalam menyediakan informasi yang akurat dan relevan untuk membantu pengguna mengikuti perkembangan misi luar angkasa.</li>
+                    </ul>
+                    <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                        ✨ Dapatkan Wawasan Proyek
+                    </button>
+                    <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
+                    <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Word2Vec Model</h3>
+                    <p class="card-date">Makassar, Indonesia</p>
+                    <ul class="list-disc list-inside text-sm text-gray-300 mt-2">
+                        <li>Mengembangkan model analisis sentimen dengan menggunakan Word2Vec untuk mengekstrak makna dari data teks.</li>
+                        <li>Menggunakan Word2Vec untuk mengubah teks menjadi vektor yang memudahkan identifikasi sentimen, seperti positif, negatif, atau netral.</li>
+                        <li>Menerapkan teknik pemrosesan bahasa alami (NLP) untuk memahami hubungan semantik dalam teks dan menganalisis perasaan yang terkandung di dalamnya.</li>
+                        <li>Membangun model yang dapat mengidentifikasi tren sentimen dan memberikan wawasan yang berguna untuk pengambilan keputusan berbasis data.</li>
+                    </ul>
+                    <button class="generate-insight-btn mt-4 px-4 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                        ✨ Dapatkan Wawasan Proyek
+                    </button>
+                    <div class="project-insight mt-4 text-gray-300 text-sm italic"></div>
+                    <div class="loading-indicator mt-2 text-gray-500 text-xs hidden">Memuat wawasan...</div>
+                </div>
+            </section>
 
-        <section id="skills" class="section">
-            <h2 class="section-title">Kemampuan</h2>
-            <h3 class="card-title">Hard Skill:</h3>
-            <div class="skill-grid mt-4">
-                <div class="skill-item">Pemrograman Mobile</div>
-                <div class="skill-item">Microsoft Office</div>
-                <div class="skill-item">Pemrograman Web</div>
-                <div class="skill-item">Figma</div>
-                <div class="skill-item">Adobe Lightroom</div>
-                <div class="skill-item">Capcut</div>
-                <div class="skill-item">Canva</div>
-                <div class="skill-item">Artificial Intelligence</div>
-            </div>
-            <h3 class="card-title mt-8">Bahasa Pemrograman:</h3>
-            <div class="skill-grid mt-4">
-                <div class="skill-item">Python</div>
-                <div class="skill-item">Java</div>
-                <div class="skill-item">PHP</div>
-                <div class="skill-item">SQL</div>
-                <div class="skill-item">Javascript</div>
-            </div>
-            <h3 class="card-title mt-8">Soft Skill:</h3>
-            <div class="skill-grid mt-4">
-                <div class="skill-item">Public Speaking</div>
-                <div class="skill-item">Sales</div>
-                <div class="skill-item">Mudah beradaptasi</div>
-                <div class="skill-item">Percaya diri</div>
-                <div class="skill-item">Pemecahan Masalah</div>
-                <div class="skill-item">Kolaborasi Tim</div>
-                <div class="skill-item">Adaptabilitas</div>
-            </div>
-        </section>
+            <section id="skills" class="section">
+                <h2 class="section-title">Kemampuan</h2>
+                <h3 class="card-title">Hard Skill:</h3>
+                <div class="skill-grid mt-4">
+                    <div class="skill-item">Pemrograman Mobile</div>
+                    <div class="skill-item">Microsoft Office</div>
+                    <div class="skill-item">Pemrograman Web</div>
+                    <div class="skill-item">Figma</div>
+                    <div class="skill-item">Adobe Lightroom</div>
+                    <div class="skill-item">Capcut</div>
+                    <div class="skill-item">Canva</div>
+                    <div class="skill-item">Artificial Intelligence</div>
+                </div>
+                <h3 class="card-title mt-8">Bahasa Pemrograman:</h3>
+                <div class="skill-grid mt-4">
+                    <div class="skill-item">Python</div>
+                    <div class="skill-item">Java</div>
+                    <div class="skill-item">PHP</div>
+                    <div class="skill-item">SQL</div>
+                    <div class="skill-item">Javascript</div>
+                </div>
+                <h3 class="card-title mt-8">Soft Skill:</h3>
+                <div class="skill-grid mt-4">
+                    <div class="skill-item">Public Speaking</div>
+                    <div class="skill-item">Sales</div>
+                    <div class="skill-item">Mudah beradaptasi</div>
+                    <div class="skill-item">Percaya diri</div>
+                    <div class="skill-item">Pemecahan Masalah</div>
+                    <div class="skill-item">Kolaborasi Tim</div>
+                    <div class="skill-item">Adaptabilitas</div>
+                </div>
+            </section>
 
-        <section id="contact" class="section">
-            <h2 class="section-title">Kontak</h2>
-            <div class="card contact-info text-center">
-                <p>Telepon: <a href="tel:085904403535">085904403535</a></p>
-                <p>Email: <a href="mailto:bayubulan659@gmail.com">bayubulan659@gmail.com</a></p>
-                <p>Alamat: Jl. Sahabat 5 Lorong 3, kelurahan Tamalanrea indah, kecamatan Tamalanrea, kota Makassar, Provinsi Sulawesi Selatan</p>
-                <p class="mt-4">Portofolio:</p>
-                <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">GitHub Project Portfolio</a></p>
-                <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">Website Project Portfolio</a></p>
-                <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">PDF Project Portfolio</a></p>
-            </div>
-        </section>
+            <section id="contact" class="section">
+                <h2 class="section-title">Kontak</h2>
+                <div class="contact-info text-center">
+                    <p>Telepon: <a href="tel:085904403535">085904403535</a></p>
+                    <p>Email: <a href="mailto:bayubulan659@gmail.com">bayubulan659@gmail.com</a></p>
+                    <p>Alamat: Jl. Sahabat 5 Lorong 3, kelurahan Tamalanrea indah, kecamatan Tamalanrea, kota Makassar, Provinsi Sulawesi Selatan</p>
+                    <p class="mt-4">Portofolio:</p>
+                    <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">GitHub Project Portfolio</a></p>
+                    <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">Website Project Portfolio</a></p>
+                    <p><a href="(LINK)" target="_blank" rel="noopener noreferrer">PDF Project Portfolio</a></p>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script>
-        // Fungsi untuk membuat partikel latar belakang
-        function createParticles() {
-            const container = document.getElementById('particles-container');
-            const numParticles = 50; // Jumlah partikel
+        // Three.js global variables
+        let scene, camera, renderer;
+        let sun, planets = [];
+        let stars = [];
 
-            for (let i = 0; i < numParticles; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                const size = Math.random() * 10 + 5; // Ukuran partikel acak
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}vw`; // Posisi horizontal acak
-                particle.style.top = `${Math.random() * 100}vh`; // Posisi vertikal acak
-                particle.style.animationDelay = `${Math.random() * 10}s`; // Penundaan animasi acak
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`; // Durasi animasi acak
-                container.appendChild(particle);
+        // Inisialisasi scene 3D
+        function init3DScene() {
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 50); // Posisi kamera awal
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.style.position = 'fixed';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            renderer.domElement.style.zIndex = '-2'; // Pastikan di belakang konten HTML
+            document.getElementById('threejs-container').appendChild(renderer.domElement);
+
+            // Cahaya
+            const ambientLight = new THREE.AmbientLight(0x404040); // Cahaya ambient
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1, 1000); // Cahaya dari matahari
+            scene.add(pointLight);
+
+            // Matahari
+            const sunGeometry = new THREE.SphereGeometry(8, 64, 64);
+            const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xFDB813 }); // Warna kuning/oranye
+            sun = new THREE.Mesh(sunGeometry, sunMaterial);
+            scene.add(sun);
+
+            // Bintang-bintang (menggunakan Three.js Points)
+            const starGeometry = new THREE.BufferGeometry();
+            const starVertices = [];
+            for (let i = 0; i < 10000; i++) { // Jumlah bintang yang lebih banyak
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000;
+                starVertices.push(x, y, z);
             }
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2 });
+            const starField = new THREE.Points(starGeometry, starMaterial);
+            scene.add(starField);
+            stars.push(starField); // Simpan referensi untuk animasi
+
+            // Planet-planet
+            const planetData = [
+                { name: 'Merkurius', radius: 1, distance: 15, color: 0x888888, orbitalSpeed: 0.02 },
+                { name: 'Venus', radius: 1.5, distance: 25, color: 0xFFA500, orbitalSpeed: 0.015 },
+                { name: 'Bumi', radius: 1.8, distance: 35, color: 0x0000FF, orbitalSpeed: 0.01 },
+                { name: 'Mars', radius: 1.3, distance: 45, color: 0xFF0000, orbitalSpeed: 0.008 }
+            ];
+
+            planetData.forEach(data => {
+                const planetGroup = new THREE.Object3D(); // Group untuk orbit
+                scene.add(planetGroup); // Tambahkan group ke scene
+
+                const planetGeometry = new THREE.SphereGeometry(data.radius, 32, 32);
+                const planetMaterial = new THREE.MeshLambertMaterial({ color: data.color });
+                const planetMesh = new THREE.Mesh(planetGeometry, planetMaterial);
+                planetMesh.position.x = data.distance; // Posisikan planet dari pusat group
+
+                planetGroup.add(planetMesh); // Tambahkan planet ke group orbit
+                planets.push({ group: planetGroup, mesh: planetMesh, orbitalSpeed: data.orbitalSpeed });
+            });
+        }
+
+        // Loop animasi 3D
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+
+            // Rotasi matahari
+            sun.rotation.y += 0.001;
+
+            // Animasi planet
+            planets.forEach(planet => {
+                planet.group.rotation.y += planet.orbitalSpeed; // Rotasi orbit
+                planet.mesh.rotation.y += 0.01; // Rotasi diri
+            });
+
+            // Animasi bintang (jika ingin bergerak)
+            // Misalnya, membuat bintang berputar perlahan
+            stars.forEach(starField => {
+                starField.rotation.y += 0.0001;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle perubahan ukuran jendela
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         // Fungsi untuk mendeteksi elemen saat di-scroll ke dalam viewport
@@ -636,15 +754,17 @@
             }
         }
 
-        // Tambahkan event listener ke tombol wawasan proyek
+        // Panggil fungsi saat halaman dimuat
         window.onload = () => {
-            createParticles();
+            init3DScene();
+            animate3D();
             animateOnScroll();
+
+            window.addEventListener('resize', onWindowResize);
 
             document.querySelectorAll('.generate-insight-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     const card = button.closest('.card');
-                    // Mengambil teks dari semua elemen li dalam ul sebagai deskripsi proyek
                     const projectDescriptionElements = card.querySelectorAll('ul li');
                     let projectDescription = '';
                     projectDescriptionElements.forEach(li => {
