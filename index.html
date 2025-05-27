@@ -78,15 +78,20 @@
         }
         .main-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: 1fr; /* Default: selalu satu kolom untuk mobile */
             gap: 2rem;
             width: 100%; /* Menggunakan lebar penuh */
             padding-top: 2rem;
         }
-        /* Perubahan untuk layout 2 kolom pada layar besar */
+
+        /* Perubahan untuk layout pada layar besar */
         @media (min-width: 1024px) { /* Untuk layar desktop dan yang lebih besar */
             .main-content-grid {
-                grid-template-columns: 1fr 1fr; /* Dua kolom dengan lebar yang sama */
+                grid-template-columns: 1fr 1fr; /* Dua kolom untuk sebagian besar konten */
+            }
+            /* Ringkasan dan Pendidikan akan selalu mengambil lebar penuh (span 2 kolom) */
+            #summary, #education {
+                grid-column: span 2; /* Membentang di kedua kolom */
             }
         }
 
@@ -97,9 +102,7 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             opacity: 0;
             transform: translateY(50px);
-            /* === PERUBAHAN DI SINI === */
             transition: opacity 0.05s ease-out, transform 0.05s ease-out, box-shadow 0.3s ease;
-            /* ========================= */
             position: relative;
             overflow: hidden;
         }
@@ -293,7 +296,7 @@
         <div class="main-content-grid">
             <section id="summary" class="section">
                 <h2 class="section-title">Ringkasan</h2>
-                <p>Sebagai profesional di bidang pemrograman dan teknologi, saya ahli dalam pengembangan web dan kecerdasan buatan (AI), dengan fokus pada analisis data dan transformasi digital. Pengalaman saya dalam OOP dan Algoritma serta Pemrograman memperkuat kemampuan analitis saya, memungkinkan saya menyusun solusi berbasis data yang efisien. Saya terampil membangun aplikasi web responsif menggunakan JavaScript, Python, dan Bootstrap, serta mengembangkan model machine learning, termasuk NLP dengan Word2Vec untuk analisis sentimen. Minat saya pada analisis data dan AI mendorong saya untuk mendukung keputusan strategis melalui visualisasi informasi. Dengan latar belakang pemasaran digital, saya memahami pentingnya data dalam strategi kampanye dan manajemen media sosial. Kombinasi keahlian ini memungkinkan saya menciptakan solusi inovatif dan berkontribusi sebagai Web Developer, AI Specialist, atau Data Analyst.</p>
+                <p>Sebagai seorang profesional di bidang pemrograman dan teknologi, saya berfokus pada pengembangan web, kecerdasan buatan (AI), dan analisis data. Saya terampil dalam membangun aplikasi web responsif, mengembangkan model machine learning termasuk NLP, serta menganalisis data untuk mendukung keputusan strategis. Dengan pengalaman di pemasaran digital, saya mampu mengintegrasikan teknologi dan strategi bisnis untuk menciptakan solusi inovatif.</p>
             </section>
 
             <section id="education" class="section">
@@ -362,6 +365,75 @@
                         <li>Apsara Clouder: Getting Started with Machine Learning & AI <a href="(LINK)" target="_blank" rel="noopener noreferrer">(LINK)</a><br>belajar dasar-dasar Machine Learning dan AI menggunakan platform Apsara dari Alibaba Cloud, termasuk teknik dasar dalam membangun dan melatih model AI.</li>
                     </ul>
                     <p class="card-date">2024</p>
+                </div>
+            </section>
+
+            <section id="licenses-certifications" class="section">
+                <h2 class="section-title">Lisensi dan Sertifikasi</h2>
+                <div class="card">
+                    <h3 class="card-title">Belajar Fundamental Deep Learning</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Fundamental Pemrosesan Data</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mei 2025 • Kedaluwarsa Mei 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Machine Learning untuk Pemula</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Financial Literacy 101</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Apr 2025 • Kedaluwarsa Apr 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI Engineering and Fine-Tuning Transformers</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Apr 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI: Prompt Engineering Basics</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Apr 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Analisis Data dengan Python</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Mar 2025 • Kedaluwarsa Mar 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Generative AI: Introduction and Applications</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Mar 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar AI</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar Git dengan GitHub</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Belajar Dasar Visualisasi Data</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Introduction to Software Engineering</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Diterbitkan Feb 2025</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Pengenalan ke Logika Pemrograman (Programming Logic 101)</h3>
+                    <p class="card-subtitle">Dicoding Indonesia</p>
+                    <p class="card-date">Diterbitkan Feb 2025 • Kedaluwarsa Feb 2028</p>
                 </div>
             </section>
 
@@ -694,6 +766,12 @@
 
             sections.forEach(section => {
                 observer.observe(section);
+                // Manual check for initially visible sections
+                // This helps ensure elements already in view get the class on load
+                const rect = section.getBoundingClientRect();
+                if (rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0) {
+                    section.classList.add('is-visible');
+                }
             });
         }
 
