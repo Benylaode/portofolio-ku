@@ -3,286 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laode Fahmi Hidayat - Portfolio</title>
+    <title>Laode Fahmi Hidayat - Full Stack & AI Specialist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0A192F; /* Dark Navy */
-            color: #CCD6F6; /* Light Slate */
-        }
-        .font-mono {
-            font-family: 'Fira Code', monospace;
-        }
-        .section-title {
-            color: #CCD6F6; /* Lightest Slate for titles */
-        }
-        .header-bg {
-            background-color: rgba(10, 25, 47, 0.85);
-            backdrop-filter: blur(10px);
-            transition: top 0.3s;
-        }
-        .highlight-text {
-            color: #64FFDA; /* Neon Green */
-        }
-        .card {
-            background-color: #112240; /* Lighter Navy */
-            border: 1px solid #1D2D50;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
-            border-color: #64FFDA;
-        }
-        .btn-primary {
-            background-color: transparent;
-            color: #64FFDA;
-            border: 1px solid #64FFDA;
-            transition: background-color 0.3s ease;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-        }
-        .btn-primary:hover {
-            background-color: rgba(100, 255, 218, 0.1);
-        }
-        .nav-link {
-            position: relative;
-            padding-bottom: 4px;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #64FFDA;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #0A192F; color: #CCD6F6; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        .section-title { color: #CCD6F6; }
+        .header-bg { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); transition: top 0.3s; }
+        .highlight-text { color: #64FFDA; }
+        .card { background-color: #112240; border: 1px solid #1D2D50; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .card:hover { transform: translateY(-7px); box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7); border-color: #64FFDA; }
+        .btn-primary { background-color: transparent; color: #64FFDA; border: 1px solid #64FFDA; transition: background-color 0.3s ease; padding: 0.75rem 1.5rem; border-radius: 4px; }
+        .btn-primary:hover { background-color: rgba(100, 255, 218, 0.1); }
+        .nav-link { position: relative; padding-bottom: 4px; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #64FFDA; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
         
         /* Sidebars */
-        .left-sidebar, .right-sidebar {
-            width: 40px;
-            position: fixed;
-            bottom: 0;
-            z-index: 10;
-        }
+        .left-sidebar, .right-sidebar { width: 40px; position: fixed; bottom: 0; z-index: 10; }
         .left-sidebar { left: 40px; }
         .right-sidebar { right: 40px; }
-
-        .sidebar-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .sidebar-content a {
-            margin: 10px 0;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .sidebar-content a:hover {
-            transform: translateY(-3px);
-            color: #64FFDA;
-        }
-        .sidebar-content::after {
-            content: '';
-            display: block;
-            width: 1px;
-            height: 90px;
-            background-color: #8892B0; /* Slate */
-            margin-top: 20px;
-        }
-        .email-link {
-            writing-mode: vertical-rl;
-            letter-spacing: 0.1em;
-        }
+        .sidebar-content { display: flex; flex-direction: column; align-items: center; }
+        .sidebar-content a { margin: 10px 0; transition: transform 0.3s ease, color 0.3s ease; }
+        .sidebar-content a:hover { transform: translateY(-3px); color: #64FFDA; }
+        .sidebar-content::after { content: ''; display: block; width: 1px; height: 90px; background-color: #8892B0; margin-top: 20px; }
+        .email-link { writing-mode: vertical-rl; letter-spacing: 0.1em; }
 
         /* Cat Animation */
-        .cat-animation-container {
-            width: 250px;
-            height: 250px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        .city-background {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 70%;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-        }
-        .building {
-            background-color: #112240;
-            width: 20%;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-            border: 2px solid #1D2D50;
-        }
+        .cat-animation-container { width: 250px; height: 250px; position: relative; display: flex; justify-content: center; align-items: center; margin-top: 2rem; overflow: hidden; border-radius: 8px; }
+        .city-background { position: absolute; bottom: 0; width: 100%; height: 70%; display: flex; justify-content: space-around; align-items: flex-end; }
+        .building { background-color: #112240; width: 20%; border-radius: 4px 4px 0 0; position: relative; border: 2px solid #1D2D50; }
         .building:nth-child(1) { height: 60%; width: 25%; }
         .building:nth-child(2) { height: 100%; width: 30%; }
         .building:nth-child(3) { height: 75%; width: 22%; }
-
-        .building::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 4px;
-            height: 4px;
-            background-color: #FFD700; /* Gold for light */
-            border-radius: 50%;
-            box-shadow: 0 0 5px #FFD700;
-            animation: twinkle 5s infinite;
-        }
+        .building::after { content: ''; position: absolute; top: 10px; left: 10px; width: 4px; height: 4px; background-color: #FFD700; border-radius: 50%; box-shadow: 0 0 5px #FFD700; animation: twinkle 5s infinite; }
         .building:nth-child(2)::after { top: 30px; left: 20px; animation-delay: 1.5s; }
         .building:nth-child(3)::after { top: 20px; left: 5px; animation-delay: 3s; }
         
-        .laptop {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 70px;
-            z-index: 5;
-        }
-        .laptop-screen {
-            width: 100%;
-            height: 100%;
-            background-color: #112240;
-            border: 4px solid #8892B0;
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .laptop-screen .code-line {
-            position: absolute;
-            left: 10px;
-            top: 15px;
-            color: #64FFDA;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: .15em solid #64FFDA;
-            animation: typing 3.5s steps(40, end) infinite, blink-caret .75s step-end infinite;
-        }
-        .laptop-base {
-            width: 140px;
-            height: 8px;
-            background-color: #8892B0;
-            border-radius: 0 0 8px 8px;
-            position: absolute;
-            bottom: -8px;
-            left: -10px;
-        }
+        .laptop { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); width: 120px; height: 70px; z-index: 5; }
+        .laptop-screen { width: 100%; height: 100%; background-color: #112240; border: 4px solid #8892B0; border-radius: 8px 8px 0 0; position: relative; overflow: hidden; }
+        .laptop-screen .code-line { position: absolute; left: 10px; top: 15px; color: #64FFDA; font-family: 'Fira Code', monospace; font-size: 14px; white-space: nowrap; overflow: hidden; border-right: .15em solid #64FFDA; animation: typing 3.5s steps(40, end) infinite, blink-caret .75s step-end infinite; }
+        .laptop-base { width: 140px; height: 8px; background-color: #8892B0; border-radius: 0 0 8px 8px; position: absolute; bottom: -8px; left: -10px; }
 
-        .cat {
-            position: absolute;
-            bottom: 60px;
-            left: calc(50% - 100px);
-            z-index: 10;
-        }
-        .cat-body {
-            width: 80px;
-            height: 50px;
-            background-color: #8892B0;
-            border-radius: 25px 25px 0 0;
-            position: absolute;
-            bottom: 0;
-        }
-        .cat-head {
-            width: 50px;
-            height: 50px;
-            background-color: #8892B0;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 30px;
-            left: -10px;
-            animation: head-bob 4s infinite ease-in-out;
-        }
-        .cat-ear-left, .cat-ear-right {
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 15px solid #CCD6F6;
-            position: absolute;
-            top: -5px;
-        }
+        .cat { position: absolute; bottom: 60px; left: calc(50% - 100px); z-index: 10; }
+        .cat-body { width: 80px; height: 50px; background-color: #8892B0; border-radius: 25px 25px 0 0; position: absolute; bottom: 0; }
+        .cat-head { width: 50px; height: 50px; background-color: #8892B0; border-radius: 50%; position: absolute; bottom: 30px; left: -10px; animation: head-bob 4s infinite ease-in-out; }
+        .cat-ear-left, .cat-ear-right { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 15px solid #CCD6F6; position: absolute; top: -5px; }
         .cat-ear-left { left: 5px; transform: rotate(-15deg); }
         .cat-ear-right { right: 5px; transform: rotate(15deg); }
+        .cat-tail { width: 15px; height: 60px; background-color: #8892B0; border-radius: 10px; position: absolute; bottom: 5px; left: 70px; transform-origin: bottom center; animation: tail-wag 2s infinite ease-in-out; }
 
-        .cat-tail {
-            width: 15px;
-            height: 60px;
-            background-color: #8892B0;
-            border-radius: 10px;
-            position: absolute;
-            bottom: 5px;
-            left: 70px;
-            transform-origin: bottom center;
-            animation: tail-wag 2s infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-        @keyframes typing {
-          from { width: 0 }
-          to { width: 80% }
-        }
-        @keyframes blink-caret {
-          from, to { border-color: transparent }
-          50% { border-color: #64FFDA; }
-        }
-        @keyframes tail-wag {
-            0%, 100% { transform: rotate(10deg); }
-            50% { transform: rotate(-10deg); }
-        }
-        @keyframes head-bob {
-             0%, 100% { transform: translateY(0) rotate(0); }
-             25% { transform: translateY(-3px) rotate(-5deg); }
-             75% { transform: translateY(0) rotate(5deg); }
-        }
+        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+        @keyframes typing { from { width: 0 } to { width: 80% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #64FFDA; } }
+        @keyframes tail-wag { 0%, 100% { transform: rotate(10deg); } 50% { transform: rotate(-10deg); } }
+        @keyframes head-bob { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-3px) rotate(-5deg); } 75% { transform: translateY(0) rotate(5deg); } }
         
-        /* Fade-in animation for sections */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 768px) {
-            .left-sidebar, .right-sidebar {
-                display: none;
-            }
-        }
+        @media (max-width: 768px) { .left-sidebar, .right-sidebar { display: none; } }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
     <header id="header" class="header-bg py-4 px-6 fixed w-full top-0 z-50">
         <div class="flex justify-between items-center">
             <a href="#" class="text-2xl font-bold highlight-text font-mono">LFH</a>
@@ -297,7 +84,6 @@
                 <a href="#contact" class="btn-primary px-4 py-2">Contact</a>
             </nav>
         </div>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden fixed top-0 right-0 w-2/3 h-screen bg-[#112240] md:hidden z-40">
             <div class="flex flex-col items-center justify-center h-full space-y-8 text-lg font-mono">
                  <a href="#about" class="nav-link mobile-link hover:text-highlight-text transition-colors">About</a>
@@ -309,11 +95,10 @@
         </div>
     </header>
 
-    <!-- Sidebars -->
     <div class="left-sidebar hidden md:block">
         <div class="sidebar-content">
             <a href="https://github.com/Benylaode" target="_blank"><i class="fab fa-github text-xl"></i></a>
-            <a href="https://www.linkedin.com/in/laode-fahmi-hidayat/" target="_blank"><i class="fab fa-linkedin-in text-xl"></i></a>
+            <a href="https://www.linkedin.com/in/laode-hidayat-a36833351/" target="_blank"><i class="fab fa-linkedin-in text-xl"></i></a>
         </div>
     </div>
     <div class="right-sidebar hidden md:block">
@@ -322,16 +107,14 @@
         </div>
     </div>
 
-
     <main class="px-6 md:px-24 lg:px-48">
-        <!-- Hero Section -->
         <section id="hero" class="min-h-screen flex items-center">
             <div>
                 <h1 class="text-lg text-highlight-text font-mono mb-4">Hi, my name is</h1>
                 <h2 class="text-4xl sm:text-6xl md:text-7xl font-bold text-gray-200">Laode Fahmi Hidayat.</h2>
-                <h3 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-400 mt-2">I build things for the web and AI.</h3>
+                <h3 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-400 mt-2">Full Stack Web & AI Specialist.</h3>
                 <p class="mt-6 max-w-xl text-gray-400">
-                    I'm a software and machine learning developer specializing in building responsive applications and developing AI models for sentiment analysis and data automation. I enjoy turning complex problems into simple, beautiful, and intuitive digital solutions.
+                    I build end-to-end web applications and integrate Machine Learning into production systems. Specializing in React, Next.js, Python FastAPI, and AI automation to create intelligent digital solutions.
                 </p>
                 <a href="#projects" class="btn-primary inline-block mt-8 text-lg">
                     Check out my projects!
@@ -339,7 +122,6 @@
             </div>
         </section>
 
-        <!-- About Me & Skills -->
         <section id="about" class="py-24 fade-in-section">
             <h2 class="section-title text-3xl font-bold mb-12 flex items-center">
                 <span class="text-highlight-text font-mono mr-3 text-2xl">01.</span> About Me
@@ -348,19 +130,19 @@
             <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
                 <div class="md:col-span-3 text-gray-400 space-y-4">
                     <p>
-                        Hello! I'm Laode, a developer with a passion for creating innovative digital solutions. My journey into tech started with a strong curiosity for how things work, which led me to the world of software development and Artificial Intelligence.
+                        Hello! I'm Laode, a Full Stack Developer and AI Specialist based in Makassar. I enjoy building things that live on the internet, from robust backend systems to intuitive frontend interfaces.
                     </p>
                     <p>
-                        Today, I have the privilege of working on diverse projects, from freelance web and AI development to mentoring and assisting in university labs. My main focus is on building accessible, human-centered products and leveraging data to drive efficiency and innovation.
+                        My expertise lies in combining traditional web development with modern AI capabilities like NLP and Computer Vision. Whether it's automating administrative tasks or building a rental platform, I focus on efficiency and scalability.
                     </p>
                     <p>Here are a few technologies I’ve been working with recently:</p>
                     <ul class="grid grid-cols-2 gap-2 font-mono text-sm">
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>JavaScript (ES6+)</li>
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Python</li>
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>PHP & SQL</li>
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Java</li>
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Machine Learning</li>
-                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Figma & Canva</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Next.js & React</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Python (FastAPI, Flask)</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>PHP (Laravel)</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Node.js</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>AI & NLP (RAG)</li>
+                        <li class="flex items-center"><span class="text-highlight-text mr-2">▹</span>Docker & Linux</li>
                     </ul>
                 </div>
                  <div class="md:col-span-2 flex justify-center items-center">
@@ -372,7 +154,7 @@
                         </div>
                         <div class="laptop">
                             <div class="laptop-screen">
-                                <span class="code-line">cat README.md</span>
+                                <span class="code-line">git commit -m "AI"</span>
                             </div>
                             <div class="laptop-base"></div>
                         </div>
@@ -389,7 +171,6 @@
             </div>
         </section>
 
-        <!-- Experience -->
         <section id="experience" class="py-24 fade-in-section">
             <h2 class="section-title text-3xl font-bold mb-12 flex items-center">
                  <span class="text-highlight-text font-mono mr-3 text-2xl">02.</span> Where I've Worked
@@ -397,33 +178,40 @@
             </h2>
             <div class="space-y-8">
                 <div class="card p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-gray-200">Freelance AI & Web Developer</h3>
-                    <p class="font-mono text-sm text-gray-400 mb-4">Self-Employed | 2023 - Present</p>
+                    <h3 class="text-xl font-bold text-gray-200">Mentor & Pengajar Teknologi</h3>
+                    <p class="font-mono text-sm text-gray-400 mb-4">Kalananti x UOB Ruangguru | 2025 - Present</p>
                     <ul class="list-disc list-inside text-gray-400 space-y-2">
-                        <li>Developed web and AI applications including sentiment analysis, hate speech detection, and data automation tools.</li>
-                        <li>Managed servers and backend infrastructure for e-commerce and administrative projects.</li>
+                        <li>Membimbing peserta membangun aplikasi web melalui pendekatan project-based learning.</li>
+                        <li>Menyiapkan materi pembelajaran digital dan memberikan mentoring teknis secara remote.</li>
                     </ul>
                 </div>
                 <div class="card p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-gray-200">Information Systems Lab Assistant</h3>
-                    <p class="font-mono text-sm text-gray-400 mb-4">Hasanuddin University | 2023 - 2025</p>
+                    <h3 class="text-xl font-bold text-gray-200">Staf Teknologi Informasi</h3>
+                    <p class="font-mono text-sm text-gray-400 mb-4">BPK Perwakilan Sulawesi Selatan | 2025</p>
                     <ul class="list-disc list-inside text-gray-400 space-y-2">
-                        <li>Taught and assisted students in Algorithm, Object-Oriented Programming (OOP), and Basic Programming courses.</li>
-                         <li>Guided students in practical lab sessions and evaluated their projects.</li>
+                        <li>Mendukung pengembangan dan pemeliharaan aplikasi internal berbasis web.</li>
+                        <li>Troubleshooting sistem operasional dan menjaga keandalan server TI.</li>
                     </ul>
                 </div>
                  <div class="card p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-gray-200">IT Staff (Internship)</h3>
-                    <p class="font-mono text-sm text-gray-400 mb-4">Audit Board of the Republic of Indonesia (BPK) | Mar 2025 - Present</p>
+                    <h3 class="text-xl font-bold text-gray-200">Asisten Lab Sistem Informasi</h3>
+                    <p class="font-mono text-sm text-gray-400 mb-4">Universitas Hasanuddin | 2023 - 2025</p>
                     <ul class="list-disc list-inside text-gray-400 space-y-2">
-                        <li>Supported the development and maintenance of internal applications for operational needs.</li>
-                        <li>Assisted with IT-related administrative processes and troubleshooting.</li>
+                        <li>Mengajar praktikum Algoritma, PBO (OOP), dan Pemrograman Dasar.</li>
+                        <li>Membimbing mahasiswa menyelesaikan masalah terkait pemrograman.</li>
+                    </ul>
+                </div>
+                 <div class="card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-200">Freelance Full Stack & AI Developer</h3>
+                    <p class="font-mono text-sm text-gray-400 mb-4">Self-Employed | 2023 - Present</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2">
+                        <li>Membangun aplikasi web terintegrasi AI (chatbot, sentiment analysis, automation).</li>
+                        <li>Mengelola server dan memastikan keamanan serta uptime aplikasi untuk klien.</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Education -->
         <section id="education" class="py-24 fade-in-section">
             <h2 class="section-title text-3xl font-bold mb-12 flex items-center">
                  <span class="text-highlight-text font-mono mr-3 text-2xl">03.</span> Education
@@ -433,34 +221,82 @@
                 <div class="card p-6 rounded-lg">
                     <h3 class="text-xl font-bold text-gray-200 mb-4">Formal Education</h3>
                     <div class="mb-4">
-                        <h4 class="font-bold text-gray-300">Hasanuddin University</h4>
-                        <p class="font-mono text-sm text-gray-400">Information Systems | GPA: 3.85 / 4.00</p>
+                        <h4 class="font-bold text-gray-300">Universitas Hasanuddin</h4>
+                        <p class="font-mono text-sm text-gray-400">S1 Sistem Informasi | IPK: 3.88</p>
+                        <p class="text-xs text-gray-500">2021 - 2025</p>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-300">MAN Insan Cendekia Kendari</h4>
-                        <p class="font-mono text-sm text-gray-400">Natural Science</p>
+                        <p class="font-mono text-sm text-gray-400">Ilmu Pengetahuan Alam</p>
                     </div>
                 </div>
                 <div class="card p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-gray-200 mb-4">Selected Certifications</h3>
+                    <h3 class="text-xl font-bold text-gray-200 mb-4">Certifications</h3>
                      <ul class="list-disc list-inside text-gray-400 space-y-2 text-sm">
-                        <li>Coding Camp Machine Learning Cohort - DBS Foundation & Dicoding</li>
-                        <li>Alibaba Cloud Certified Developer - Alibaba Cloud Academy</li>
-                        <li>Python for Data Science and AI - Dicoding</li>
-                        <li>Generative AI: Prompt Engineering Basics - IBM</li>
+                        <li>Coding Camp DBS ML Cohort - Dicoding (2025)</li>
+                        <li>Alibaba Cloud Certified Developer (2024)</li>
+                        <li>Python for Data Science and AI - Dicoding (2024)</li>
+                        <li>Generative AI: Prompt Engineering Basics - IBM (2024)</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Projects -->
         <section id="projects" class="py-24 fade-in-section">
              <h2 class="section-title text-3xl font-bold mb-12 flex items-center">
                  <span class="text-highlight-text font-mono mr-3 text-2xl">04.</span> Things I've Built
                  <span class="flex-grow h-px bg-[#1D2D50] ml-4"></span>
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Project Card 1 -->
+                <div class="card p-6 rounded-lg flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
+                        <div class="text-right">
+                            <a href="https://sispinru.vercel.app/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors ml-3"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">SISPINRU (Gov't Booking)</h3>
+                    <p class="text-gray-400 flex-grow">Aplikasi peminjaman ruangan pemerintahan untuk digitalisasi administrasi dan mencegah bentrok jadwal rapat.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">Project Manager | Laravel | Web</p>
+                </div>
+
+                 <div class="card p-6 rounded-lg flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
+                        <div class="text-right">
+                             <a href="https://github.com/Benylaode" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">Hire Screening AI</h3>
+                    <p class="text-gray-400 flex-grow">Sistem screening CV otomatis berbasis Retrieval-Augmented Generation (RAG) untuk membantu HR menyeleksi kandidat.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">RAG | LLM | Python</p>
+                </div>
+
+                <div class="card p-6 rounded-lg flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
+                        <div class="text-right">
+                             <a href="https://vocare.safenurse.site/apidocs/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors mr-2"><i class="fas fa-code"></i></a>
+                            <a href="https://www.safenurse.site/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors ml-3"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">SafeNurse / Vocare</h3>
+                    <p class="text-gray-400 flex-grow">Aplikasi manajemen hazard rumah sakit dan pelaporan risiko dengan integrasi API yang komprehensif.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">Web App | API Docs</p>
+                </div>
+
+                 <div class="card p-6 rounded-lg flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
+                        <div class="text-right">
+                            <a href="https://caturcomputer.com/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors ml-3"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">Catur Computer</h3>
+                    <p class="text-gray-400 flex-grow">Platform e-commerce dan rental komputer. Pengembangan web komersial dengan fokus pada UX dan SEO.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">E-commerce | Web Dev</p>
+                </div>
+
                 <div class="card p-6 rounded-lg flex flex-col">
                     <div class="flex justify-between items-center mb-4">
                         <i class="fas fa-folder text-3xl text-highlight-text"></i>
@@ -473,8 +309,8 @@
                     <p class="text-gray-400 flex-grow">A real-time system capable of identifying bird species from their chirps using a custom-trained machine learning model.</p>
                     <p class="font-mono text-sm text-gray-500 mt-4">Python | TensorFlow | Web Audio API</p>
                 </div>
-                 <!-- Project Card 2 -->
-                <div class="card p-6 rounded-lg flex flex-col">
+
+                 <div class="card p-6 rounded-lg flex flex-col">
                     <div class="flex justify-between items-center mb-4">
                         <i class="fas fa-folder text-3xl text-highlight-text"></i>
                         <div class="text-right">
@@ -482,71 +318,23 @@
                             <a href="https://exel-ai.vercel.app/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors ml-3"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">AI-Powered Spreadsheet</h3>
-                    <p class="text-gray-400 flex-grow">An intelligent spreadsheet application that allows users to process Excel data using natural language text and voice commands.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">JavaScript | NLP | Google Cloud AI</p>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">Spreadsheet Alam AI</h3>
+                    <p class="text-gray-400 flex-grow">Automasi Excel menggunakan perintah suara dan teks natural untuk memproses data secara cerdas.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">NLP | Voice Command | AI</p>
                 </div>
-                 <!-- Project Card 3 -->
-                <div class="card p-6 rounded-lg flex flex-col">
+
+                 <div class="card p-6 rounded-lg flex flex-col">
                     <div class="flex justify-between items-center mb-4">
                         <i class="fas fa-folder text-3xl text-highlight-text"></i>
                         <div class="text-right">
                              <a href="https://github.com/Benylaode/SafeSpeak" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">SafeSpeak AI</h3>
-                    <p class="text-gray-400 flex-grow">An AI application designed to detect and flag hate speech on social media platforms, aiming to enhance online interaction safety.</p>
+                    <h3 class="text-xl font-bold text-gray-200 mb-2">SafeSpeak Hate Speech</h3>
+                    <p class="text-gray-400 flex-grow">Model AI pendeteksi ujaran kebencian real-time. Lead AI developer untuk algoritma klasifikasi teks.</p>
                     <p class="font-mono text-sm text-gray-500 mt-4">Python | Scikit-learn | Flask</p>
                 </div>
-                 <!-- Project Card 4 -->
-                 <div class="card p-6 rounded-lg flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
-                        <div class="text-right">
-                             <a href="https://github.com/Benylaode" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">Hospital Hazard Management</h3>
-                    <p class="text-gray-400 flex-grow">As Project Manager, I supervised the development of a hazard reporting system for hospitals, featuring workflow design and risk analytics.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Project Management | UI/UX Design</p>
-                </div>
-                 <!-- Project Card 5 -->
-                 <div class="card p-6 rounded-lg flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
-                         <div class="text-right">
-                             <a href="https://algoreads.up.railway.app/" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">Algoreads</h3>
-                    <p class="text-gray-400 flex-grow">An innovative platform for reading and analyzing algorithms, providing a user-friendly interface for in-depth exploration and learning.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Web Development | Educational Tech</p>
-                </div>
-                 <!-- Project Card 6 -->
-                 <div class="card p-6 rounded-lg flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
-                         <div class="text-right">
-                             <a href="https://github.com/Benylaode" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">Attendance with Face Recognition</h3>
-                    <p class="text-gray-400 flex-grow">Developed the core face recognition features for an employee attendance system to improve efficiency and accuracy in tracking.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Computer Vision | Python | OpenCV</p>
-                </div>
-                 <!-- Project Card 7 -->
-                 <div class="card p-6 rounded-lg flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
-                        <div class="text-right">
-                             <a href="https://github.com/Benylaode" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">Internal Gov't Room Booking</h3>
-                    <p class="text-gray-400 flex-grow">Designed and implemented an internal application for managing meeting room reservations within government institutions.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Project Management | System Design</p>
-                </div>
-                 <!-- Project Card 8 -->
+
                  <div class="card p-6 rounded-lg flex flex-col">
                     <div class="flex justify-between items-center mb-4">
                         <i class="fas fa-folder text-3xl text-highlight-text"></i>
@@ -555,25 +343,12 @@
                         </div>
                     </div>
                     <h3 class="text-xl font-bold text-gray-200 mb-2">KosKampus</h3>
-                    <p class="text-gray-400 flex-grow">Managed servers for a web-based boarding house rental app, handling security, database, and API integration.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Server Admin | Databases | API</p>
-                </div>
-                 <!-- Project Card 9 -->
-                 <div class="card p-6 rounded-lg flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <i class="fas fa-folder text-3xl text-highlight-text"></i>
-                        <div class="text-right">
-                             <a href="https://github.com/Benylaode" target="_blank" class="text-gray-400 hover:text-highlight-text transition-colors"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-200 mb-2">Voice-to-Text for Hospitals</h3>
-                    <p class="text-gray-400 flex-grow">Set up and configured servers for an AI speech-to-text system to accelerate medical record documentation.</p>
-                    <p class="font-mono text-sm text-gray-500 mt-4">Server Engineering | AI Infra</p>
+                    <p class="text-gray-400 flex-grow">Full Stack Developer untuk aplikasi penyewaan properti dengan integrasi pembayaran dan keamanan sistem.</p>
+                    <p class="font-mono text-sm text-gray-500 mt-4">Full Stack | Database | Security</p>
                 </div>
             </div>
         </section>
 
-        <!-- Contact -->
         <section id="contact" class="py-24 text-center fade-in-section">
              <h2 class="section-title text-3xl font-bold mb-4 flex items-center justify-center font-mono">
                  <span class="text-highlight-text mr-3 text-2xl">05.</span> What's Next?
@@ -588,7 +363,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="py-6 text-center text-gray-500 font-mono text-sm">
         <div class="md:hidden flex justify-center space-x-6 mb-4">
              <a href="https://github.com/Benylaode" target="_blank" class="hover:text-highlight-text transition-colors text-2xl"><i class="fab fa-github"></i></a>
@@ -611,10 +385,8 @@
             window.addEventListener('scroll', function () {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Downscroll
                     header.style.top = '-100px';
                 } else {
-                    // Upscroll
                     header.style.top = '0';
                 }
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
@@ -632,8 +404,8 @@
 
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                     mobileMenu.classList.add('hidden');
-                     menuBtn.classList.remove('is-active');
+                      mobileMenu.classList.add('hidden');
+                      menuBtn.classList.remove('is-active');
                 });
             });
 
@@ -662,5 +434,3 @@
 
 </body>
 </html>
-
-
